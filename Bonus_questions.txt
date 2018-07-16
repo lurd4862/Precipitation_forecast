@@ -1,0 +1,65 @@
+1. Discuss two machine learning approaches that would also be able to perform the task. Explain how these methods could be applied instead of your chosen method.
+
+Hmmm... I'm not sure my method even works all that well. I used a very naïve architecture given the time and resources I have. But even if I tried different RNN's using different tricks to represent the sequences I doubt I could get a highly accurate model
+
+ I don't know any benchmarks I can compare it to. But off the top of my head we could try some of these:
+
+Perhaps if one used a hidden markov model for patches in the image you could derive a stochastic transition rate between the different states. Before even starting there is an obvious issue here. HMM ideally want markov states (that is states that are time independent besides the last observation). One would have to create enough states (describing past conditions) such that the system can be adequately described with such a limiting assumption. This is basically a Q matrix.
+
+We could subdivide the picture space and record the average RGB in each quadrant. Stitch together these over time and you have a multivariate forecast.
+
+But these wouldn't work well since weather is considered a chaotic system of Lyapunov time after only a few days.
+
+2. Explain the difference between supervised and unsupervised learning.
+
+We normally collect data tracking an outcome of interest or pay humans to evaluate data and label data in a way that is meaningful.
+
+When the data tracks a value or class we want to predict or understand we will supervise the training of a statistical model that learns f(x)=y/label. This model that learns from cases historically seen is a supervised learning model.
+
+For example, we may see an x-ray image and conclude an individual has cancer. With enough data and good diagnoses we can supervise a model to do this for us.
+
+On the other hand we also have mountains of data, often unstructured, that we believe holds valuable insights. When the data does not have any obvious labels or values that give us the information we need we fall back to unsupervised learning. This type of model often forms representations of the data that give us useful insights.
+
+For example, the marketing division knows that census data exists detailing asset ownership and demographics as well as household expenditures. What they want to know is what archetypes of households they should market to when selling a particular expenditure. We can use an unsupervised learning algorithm like multiple factor analysis or t-sne to find clusters of households spending in a certain way.
+
+3. Explain the difference between classification and regression.
+
+I mean... The one model predicts which of a number of mutually exclusive classes a data input belongs to.
+
+The other tries to predict a continuous variable such as income or rainfall.
+
+Usually they are both supervised models
+
+4. In supervised classification tasks, we are often faced with datasets in which one of the classes is much more prevalent than any of the other classes. This condition is called class imbalance. Explain the consequences of class imbalance in the context of machine learning.
+
+This problem comes up very often. After all; the outcomes we most want to predict are often rare. When you want to predict an unlikely outcome such as joined program/account your precision recall for your model will struggle.
+
+In simple terms if 95% of clients do not become members the model can easily score 95% accuracy by just predicting you won't join under any circumstances. More specifically we have for each joiner a multitude of similar non-joiners who provide counter evidence.
+
+This means that the model will be too pessimistic when predicting if a person is likely to join. When looking at your confusion matrix you want to have decent tradeoff between false positive and false negative (precision recall bias) predictions.
+
+5. Explain how any negative consequences of the class imbalance problem (explained in question 4) can be mitigated.
+
+The usual way to deal with this in my experience is to use sampling techniques. Normally I would use SMOTE since it just gives me the best performance but other techniques can also be used like downsampling or ROSE.
+
+Alternatively one could try to use matching strategies. For example if you were predicting credit fraud using random forest, propensity models will yield proximity matrices. Sampling from people close to but not included in fraudulent transactions allows one to have credible samples for each outcome without under representing any.
+
+Now this way you can have equal replicants for each prediction class without miss representing the data (must be clever in sampling approach - can validate with holdout)
+
+6. Provide a short overview of the key differences between deep learning and any non-deep learning method.
+
+Shallow learning algorithms are shallow because they can only train over a couple of transformations of the data. By optimizing over objectives like information entropy or some such function they can often achieve great results on tabular structured data. They need the data scientist to engineer rich features, remove high correlations and zero variance features for example.
+
+On the other hand deep learning models are deep because they can have many layers of transformation (as many as desired under resource constraints). By allowing the data scientist to engineer not features but model complexity the algorithms often don't require clean feature engineered inputs (but inputs must still be treated). The model will be powerful enough to extract these features on its own.
+
+Combining deep learning and shallow learning algorithms often yield superior results which may suggest that each have different strengths. For example using a weighted model of random forest and DNN may improve accuracy when data is usable by both. Of course we can also boost deep learning models by creating custom graphs of networks
+
+7. What is the most recent development in AI that you are aware of and what is its application, if any?
+
+I guess there are quite a few things under rapid development. For example we recently had OpenAI release their 5 player reinforcement learning bots playing dota 2 at amateur levels (it is called OpenAI 5 I think). Deep reinforcement learning is a very valuable area of research since it promises to flood the industrial market which until now has not really benefitted from smart robotics.
+
+8. Explain how the above development moves our understanding of the field forward.
+
+Well, no one expected them to move from a 1v1 agent to a 5v5 agent in only a year. The way I understand it they were able to achieve this by simply scaling up their operation (in terms of processing power and resource usage on feature space). The algorithms they used have not improved all that much (although they are using the new algorithm which makes the trusted deep-Q-learning techniques much more efficient)
+
+I guess that moves the field forward because it tells us we are still operating within economies of scale and that we can start attempting larger and more complex robotics
